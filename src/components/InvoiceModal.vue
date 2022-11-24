@@ -186,5 +186,18 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+.invoice-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  width: 100%;
+  height: 100vh;
+  overflow: scroll;
+  @media(min-width: 900px){
+    left: 90px;
+  }
+
+}
 </style>
