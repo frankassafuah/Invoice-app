@@ -67,7 +67,7 @@ export default {
 
 .app-content {
   padding: 0 20px;
-  flex: 1;
+  flex: 1; // for all to take equal amount of space
   position: relative;
 }
 
