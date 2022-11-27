@@ -191,12 +191,13 @@
 
 <script>
 import { mapMutations } from "vuex";
+import { uid } from "uid";
 export default {
   name: "InvoiceModal",
 
   data() {
     return {
-      dateOptions: {year: "numeric", month: "short", day: "numeric"},
+      dateOptions: { year: "numeric", month: "short", day: "numeric" },
       billerStreetAddress: null,
       billerCity: null,
       billerZipCode: null,
@@ -222,7 +223,10 @@ export default {
 
   created() {
     this.invoiceDateUnix = Date.now();
-    this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString('en-us', this.dateOptions)
+    this.invoiceDate = new Date(this.invoiceDateUnix).toLocaleDateString(
+      "en-us",
+      this.dateOptions
+    );
   },
 
   methods: {
@@ -231,16 +235,35 @@ export default {
     closeInvoice() {
       this.TOGGLE_INVOICE();
     },
+    addNewInvoiceItem() {
+      this.invoiceItemList.push({
+        id: uid(),
+        itemName: "",
+        qty: "",
+        price: 0,
+        total: 0,
+      });
+    },
+    deleteInvoiceItem(id){
+    //  const index = this.invoiceItemList.findIndex(item => item.id === id);
+    //  this.invoiceItemList.splice(index, 1)
+     //or
+     this.invoiceItemList = this.invoiceItemList.filter(item => item.id !== id)
+    }
   },
   watch: {
-    paymentTerms(newValue){
-      if(newValue){
+    paymentTerms(newValue) {
+      if (newValue) {
         const futureDate = new Date();
-        this.paymentDueDateUnix = futureDate.setDate(futureDate.getDate() + parseInt(this.paymentTerms));
-        this.paymentDueDate = new Date(this.paymentDueDateUnix).toLocaleDateString("en-us", this.dateOptions)
+        this.paymentDueDateUnix = futureDate.setDate(
+          futureDate.getDate() + parseInt(this.paymentTerms)
+        );
+        this.paymentDueDate = new Date(
+          this.paymentDueDateUnix
+        ).toLocaleDateString("en-us", this.dateOptions);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
