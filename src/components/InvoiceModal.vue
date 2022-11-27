@@ -180,7 +180,7 @@
           </div>
           <div class="right flex">
             <button type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
-            <button @click="publishInvoice" class="purple">
+            <button type="submit" @click="publishInvoice" class="purple">
               Create Invoice
             </button>
           </div>
@@ -282,6 +282,7 @@ export default {
       }
       this.loading = true;
       this.calInvoiceTotal();
+      //firebase
       const database = db.collection("invoice").doc();
 
       await database.set({
