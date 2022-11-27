@@ -192,6 +192,7 @@
 <script>
 import { mapMutations } from "vuex";
 import { uid } from "uid";
+import db from "../firebase/firebaseInit";
 export default {
   name: "InvoiceModal",
 
@@ -244,12 +245,63 @@ export default {
         total: 0,
       });
     },
-    deleteInvoiceItem(id){
-    //  const index = this.invoiceItemList.findIndex(item => item.id === id);
-    //  this.invoiceItemList.splice(index, 1)
-     //or
-     this.invoiceItemList = this.invoiceItemList.filter(item => item.id !== id)
-    }
+    deleteInvoiceItem(id) {
+      //  const index = this.invoiceItemList.findIndex(item => item.id === id);
+      //  this.invoiceItemList.splice(index, 1)
+      //or
+      this.invoiceItemList = this.invoiceItemList.filter(
+        (item) => item.id !== id
+      );
+    },
+    publishInvoice() {
+      this.invoicePending = true;
+    },
+    saveDraft() {
+      this.invoiceDraft = false;
+    },
+    calInvoiceTotal() {
+      this.invoiceTotal = 0;
+      this.invoiceItemList.forEach((item) => {
+        this.invoiceTotal += item.total;
+      });
+    },
+    async uploadInvoice() {
+      if (this.invoiceItemList.length <= 0) {
+        alert("Please ensure you filled out work items!");
+        return;
+      }
+      this.calInvoiceTotal();
+      const database = db.collection("invoice").doc();
+
+      await database.set({
+        invoiceId: uid(6),
+        billerStreetAddress: this.billerStreetAddress,
+        billerCity: this.billerCity,
+        billerZipCode: this.billerZipCode,
+        billerCountry: this.billerCountry,
+        clientName: this.clientName,
+        clientEmail: this.clientEmail,
+        clientStreetAddress: this.clientStreetAddress,
+        clientCity: this.clientCity,
+        clientZipCode: this.clientZipCode,
+        clientCountry: this.clientCountry,
+        invoiceDate: this.invoiceDate,
+        invoiceDateUnix: this.invoiceDateUnix,
+        paymentTerms: this.paymentTerms,
+        paymentDueDate: this.paymentDueDate,
+        paymentDueDateUnix: this.paymentDueDateUnix,
+        productDescription: this.productDescription,
+        invoiceItemList: this.invoiceItemList,
+        invoiceTotal: this.invoiceTotal,
+        invoicePending: this.invoicePending,
+        invoiceDraft: this.invoiceDraft,
+        invoicePaid: null,
+      });
+      this.TOGGLE_INVOICE();
+    },
+    submitForm() {
+      this.uploadInvoice();
+    },
   },
   watch: {
     paymentTerms(newValue) {
