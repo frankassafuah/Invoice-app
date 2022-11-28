@@ -1,28 +1,32 @@
-
-
 <template>
-    <router-link class="invoice flex" :to="{ name: 'Invoice', params: { invoiceId: invoice.invoiceId } }">
-      <div class="left flex">
-        <span class="tracking-number">#{{ invoice.invoiceId }}</span>
-        <span class="due-date">{{ invoice.paymentDueDate }}</span>
-        <span class="person">{{ invoice.clientName }}</span>
+  <router-link
+    class="invoice flex"
+    :to="{ name: 'Invoice', params: { invoiceId: invoice.invoiceId } }"
+  >
+    <div class="left flex">
+      <span class="tracking-number">#{{ invoice.invoiceId }}</span>
+      <span class="due-date">{{ invoice.paymentDueDate }}</span>
+      <span class="person">{{ invoice.clientName }}</span>
+    </div>
+    <div class="right flex">
+      <span class="price">${{ invoice.invoiceTotal }}</span>
+      <div
+        class="status-button flex"
+        :class="{
+          paid: invoice.invoicePaid,
+          draft: invoice.invoiceDraft,
+          pending: invoice.invoicePending,
+        }"
+      >
+        <span v-if="invoice.invoicePaid">Paid</span>
+        <span v-if="invoice.invoiceDraft">Draft</span>
+        <span v-if="invoice.invoicePending">Pending</span>
       </div>
-      <div class="right flex">
-        <span class="price">${{ invoice.invoiceTotal }}</span>
-        <div
-          class="status-button flex"
-          :class="{ paid: invoice.invoicePaid, draft: invoice.invoiceDraft, pending: invoice.invoicePending }"
-        >
-          <span v-if="invoice.invoicePaid">Paid</span>
-          <span v-if="invoice.invoiceDraft">Draft</span>
-          <span v-if="invoice.invoicePending">Pending</span>
-        </div>
-        <div class="icon">
-          <img src="@/assets/icon-arrow-right.svg" alt="" />
-        </div>
+      <div class="icon">
+        <img src="@/assets/icon-arrow-right.svg" alt="" />
       </div>
-    </router-link>
-  </template>
+    </div>
+  </router-link>
 </template>
 
 <script>
@@ -45,4 +49,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.invoice {
+  text-decoration: none;
+  cursor: pointer;
+  gap: 16px;
+  margin-bottom: 16px;
+  color: #fff;
+  border-radius: 20px;
+  padding: 28px 32px;
+  background-color: #1e2139;
+  align-items: center;
+}
+</style>
