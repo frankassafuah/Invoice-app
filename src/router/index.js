@@ -7,6 +7,11 @@ const routes = [
     name: "Home",
     component: Home,
   },
+  {
+    path: "/invoice/:invoiceId",
+    name: "Invoice",
+    component: () => import ("../views/InvoiceView.vue")
+  }
 ];
 
 const router = createRouter({
