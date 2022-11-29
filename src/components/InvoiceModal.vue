@@ -358,6 +358,7 @@ export default {
       });
       this.loading = false;
       this.TOGGLE_INVOICE();
+      this.GET_INVOICES();
     },
     async updateInvoice() {
       if (this.invoiceItemList.length <= 0) {
