@@ -70,7 +70,7 @@ export default {
     flex-basis: 60%; // initial lenght of 60%
     gap: 16px;
     span {
-      flex: 1 // All flex items to take the same space
+      flex: 1 // All span items to take the same space
     }
     .tracking-number {
       text-transform: uppercase;
